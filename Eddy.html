@@ -1,68 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interactive Text Editor</title>
-    <style>
-        #displayArea {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 10px;
-            min-height: 50px;
-        }
-    </style>
-    <script>
-        var history = []; // To keep track of changes for undo
-
-        function applyBold() {
-            var textArea = document.getElementById("userInput");
-            var displayArea = document.getElementById("displayArea");
-            var selectedText;
-
-            if (textArea.selectionStart !== undefined) {
-                var startPos = textArea.selectionStart;
-                var endPos = textArea.selectionEnd;
-                selectedText = textArea.value.substring(startPos, endPos);
-
-                if (selectedText) { // Ensure there's a selection
-                    // Save current state for undo
-                    history.push(displayArea.innerHTML);
-                    
-                    // Apply bold to the selected text
-                    var boldText = "<b>" + selectedText + "</b>";
-                    var newText = textArea.value.substring(0, startPos) + boldText + textArea.value.substring(endPos);
-                    
-                    // Update display area and text area with the new text
-                    displayArea.innerHTML = newText;
-                    textArea.value = newText;
-                }
-            }
-        }
-
-        function undoLastAction() {
-            var displayArea = document.getElementById("displayArea");
-            if (history.length > 0) {
-                // Revert to the last saved state
-                displayArea.innerHTML = history.pop();
-            }
-        }
-
-        function updateDisplay() {
-            var textArea = document.getElementById("userInput");
-            var displayArea = document.getElementById("displayArea");
-            displayArea.innerHTML = textArea.value;
-
-            // Reset history because the text has changed
-            history = [];
-        }
-    </script>
+    <title>Text Editor with Undo</title>
 </head>
 <body>
     <h2>Input Your Text Here:</h2>
-    <textarea id="userInput" rows="4" cols="50" onInput="updateDisplay()"></textarea>
+    <textarea id="userInput" rows="4" cols="50"></textarea>
     <br>
     <button onclick="applyBold()">Make Bold</button>
     <button onclick="undoLastAction()">Undo</button>
     <h2>Formatted Text:</h2>
-    <div id="displayArea"></div>
+    <div id="displayArea" style="border: 1px solid #ccc; padding: 10px; min-height: 50px;"></div>
+
+    <script>
+        let history = []; // To store history for undo functionality
+
+        function applyBold() {
+            let userInput = document.getElementById("userInput");
+            let displayArea = document.getElementById("displayArea");
+            let selectedText = getSelectionText();
+
+            if (selectedText) {
+                let newText = userInput.value.replace(selectedText, `<b>${selectedText}</b>`);
+                history.push(userInput.value); // Save current state before applying the bold
+                userInput.value = newText;
+                updateDisplayArea();
+            }
+        }
+
+        function getSelectionText() {
+            let textArea = document.getElementById('userInput');
+            let startPos = textArea.selectionStart;
+            let endPos = textArea.selectionEnd;
+            return textArea.value.substring(startPos, endPos);
+        }
+
+        function updateDisplayArea() {
+            let userInput = document.getElementById("userInput");
+            document.getElementById("displayArea").innerHTML = userInput.value;
+        }
+
+        function undoLastAction() {
+            if (history.length > 0) {
+                let userInput = document.getElementById("userInput");
+                let previousState = history.pop(); // Get the last state
+                userInput.value = previousState;
+                updateDisplayArea();
+            }
+        }
+    </script>
 </body>
 </html>
