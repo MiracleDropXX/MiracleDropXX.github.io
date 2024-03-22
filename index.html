@@ -16,7 +16,7 @@
       color: white;
       padding: 1em 0;
     }
-        nav h1 {
+    nav h1 {
       margin: 0;
       font-size: 40px;
     }
@@ -24,14 +24,16 @@
       list-style: none;
       padding: 0;
       text-align: center;
+      margin: 0; /* Adjust margin to align with design requirements */
     }
     li {
-      margin: 10px 0;
+      display: inline-block; /* Change display to inline-block to have items on the same line */
+      margin: 10px; /* Adjusted margin for horizontal spacing */
     }
     li a {
       text-decoration: none;
       color: #333;
-      display: inline-block;
+      display: block; /* Ensure the links fill the list item for better clickability */
       border: 2px solid #333;
       padding: 10px 20px;
       background: white;
@@ -53,7 +55,11 @@
       color: #333;
       margin: 20px 0;
     }
-  </style>
+    /* New style for sections to ensure alignment */
+    .section {
+      margin-bottom: 20px; /* Space between sections */
+    }
+    </style>
 </head>
 <body>
   <nav>
