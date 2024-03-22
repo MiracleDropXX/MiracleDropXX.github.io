@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tuition Fee Calculator</title>
+  <script>
+    // Assume global fees object (you would define this based on your actual fee structure)
+    const fees = {
+      baseFee: 1000,
+      credit30Multiplier: 1,
+      credit60Multiplier: 1.5,
+      holdsDegree: 100, // Additional fee if the user holds a degree
+      employed: 50 // Additional fee if the user is employed
+      // ... add other conditions as needed
+    };
+
+    function calculateTuition() {
+      let totalFee = fees.baseFee;
+      // Get the user's input values
+      const credits = document.getElementById('credits').value;
+      const holdsDegree = document.getElementById('degree').checked;
+      const employed = document.getElementById('employed').checked;
+
+      // Calculate the fee based on the user input
+      totalFee *= (credits === '30' ? fees.credit30Multiplier : fees.credit60Multiplier);
+      if (holdsDegree) totalFee += fees.holdsDegree;
+      if (employed) totalFee += fees.employed;
+
+      // Display the result
+      document.getElementById('totalFee').textContent = `Total Tuition Fee: ${totalFee}`;
+    }
+  </script>
+</head>
+<body>
+
+<h1>Tuition Fee Calculator</h1>
+
+<form id="tuitionCalculator">
+  <label>How many credits are you planning to study per year?
+    <select id="credits" onchange="calculateTuition()">
+      <option value="30">30 credits per year</option>
+      <option value="60">60 credits per year</option>
+    </select>
+  </label>
+  <label>
+    <input type="checkbox" id="degree" onchange="calculateTuition()"> Do you already hold a degree?
+  </label>
+  <label>
+    <input type="checkbox" id="employed" onchange="calculateTuition()"> Are you employed?
+  </label>
+  <!-- Add more input fields as needed -->
+</form>
+
+<div id="totalFee">Total Tuition Fee: </div>
+
+</body>
+</html>
