@@ -1,3 +1,3 @@
 # MiracleDropXX 
 ## h1 
-<p>why does $\text{H} </p>
+<p>why does $\text{H}$ </p>
