@@ -70,34 +70,59 @@
 </div>
 
 <script>
-  function generateHistogram() {
-    const numSimulations = parseInt(document.getElementById('numSimulations').value);
-    const mu = parseFloat(document.getElementById('mu').value);
-    const sigma = parseFloat(document.getElementById('sigma').value);
-    
-    // Generate random data for the histogram
-    const data = Array.from({length: numSimulations}, () => mu + sigma * Math.random());
+function generateHistogram() {
+  const numSimulations = parseInt(document.getElementById('numSimulations').value);
+  const mu = parseFloat(document.getElementById('mu').value);
+  const sigma = parseFloat(document.getElementById('sigma').value);
+  
+  // Generate random data for the histogram following a normal distribution
+  const data = Array.from({length: numSimulations}, () => {
+    // Use the Box-Muller transform to generate a normally distributed number
+    const u1 = Math.random();
+    const u2 = Math.random();
+    const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+    return z0 * sigma + mu;
+  });
 
-    // Use Chart.js to render the histogram
-    new Chart(document.getElementById('histogramChart'), {
-      type: 'bar',
-      data: {
-        labels: data.map((_, index) => index + 1),
-        datasets: [{
-          label: 'Simulation Data',
-          data: data,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)'
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+  // Sort the data to create bins for the histogram
+  const sortedData = data.sort((a, b) => a - b);
+  const chartElement = document.getElementById('histogramChart');
+
+  // If a Chart instance already exists, destroy it before creating a new one
+  if (window.histogramChart instanceof Chart) {
+    window.histogramChart.destroy();
+  }
+
+  window.histogramChart = new Chart(chartElement, {
+    type: 'bar',
+    data: {
+      labels: sortedData.map((_, index) => index + 1),
+      datasets: [{
+        label: 'Simulation Data',
+        data: sortedData,
+        backgroundColor: 'rgba(0, 123, 255, 0.5)'
+      }]
+    },
+    options: {
+      indexAxis: 'y', // Use horizontal bars
+      scales: {
+        y: {
+          beginAtZero: true
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Value'
+          },
+          bins: { // Specify the bins for the histogram
+            count: 20 // Change this value to increase or decrease the number of bins
           }
         }
       }
-    });
-  }
+    }
+  });
+}
+
 </script>
 
 </body>
