@@ -15,110 +15,100 @@
       background: #333;
       color: white;
       padding: 1em 0;
+      text-align: center;
     }
     nav h1 {
       margin: 0;
-      font-size: 40px;
+      font-size: 24px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      text-align: center;
-      margin: 0; /* Adjust margin to align with design requirements */
+    .content {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
     }
-    li {
-      display: inline-block; /* Change display to inline-block to have items on the same line */
-      margin: 10px; /* Adjusted margin for horizontal spacing */
+    .card {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
     }
-    li a {
+    .card h2 {
+      color: #333;
+      font-size: 20px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .card a {
       text-decoration: none;
       color: #333;
-      display: block; /* Ensure the links fill the list item for better clickability */
+      display: block;
       border: 2px solid #333;
       padding: 10px 20px;
-      background: white;
+      margin: 10px 0;
       border-radius: 10px;
       transition: all 0.3s ease;
+      text-align: center;
     }
-    li a:hover {
+    .card a:hover {
       background: #333;
       color: white;
       border: 2px solid white;
     }
-    .logo {
-      display: block;
-      margin: 20px auto 0;
-      max-width: 100%;
-      height: auto;
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
     }
-    h2 {
-      color: #333;
-      margin: 20px 0;
-    }
-    /* New style for sections to ensure alignment */
-    .section {
-      margin-bottom: 20px; /* Space between sections */
-    }
-    </style>
+  </style>
 </head>
 <body>
   <nav>
     <h1>Various Notes of a Curious Character</h1>
-    <h1 font-size: 24px;>Mens et Manus</h1>
+    <h1>Mens et Manus</h1>
   </nav>
-  <div id="content">
-     <img src="new owl.jpg" alt="time to learn" class="logo">
-    <h2>Section 1: Foundations of Artificial Intelligence</h2>
-    <!-- Example project link for Foundations of AI -->
-    <ul>
-      <li><a href="project_link.html">AI Project 1</a></li>
-    </ul>
-    <h2>Section 2: Basic Concepts in Mathematics</h2>
-    <!-- Example project link for Basic Concepts in Mathematics -->
-    <ul>
-      <li><a href="math_project_link.html">Math Project 1</a></li>
-    </ul>
-    <h2>Section 3: Introduction to Algorithms</h2>
-    <!-- Example project link for Introduction to Algorithms -->
-    <ul>
-      <li><a href="algo_project_link.html">Algorithm Project 1</a></li>
-    </ul>
-    <h2>Programming for AI</h2>
-    <!-- Example project link for Programming for AI -->
-    <ul>
-      <li><a href="programming_project_link.html">Programming Project 1</a></li>
-    </ul>
-    <h2>Section 4: Machine Learning Basics</h2>
-    <!-- Example project link for Machine Learning Basics -->
-    <ul>
-      <li><a href="ml_project_link.html">ML Project 1</a></li>
-    </ul>
-    <h2>Section 6: Deep Learning Fundamentals</h2>
-    <!-- Example project link for Deep Learning Fundamentals -->
-    <ul>
-      <li><a href="dl_project_link.html">DL Project 1</a></li>
-    </ul>
-    <h2>Section 7: Advanced Topics</h2>
-    <!-- Example project link for Advanced Topics -->
-    <ul>
-      <h3> Generative Models </h3>
-      <li><a href="advanced_project_link.html">Autoencoders</a></li>
-      <li><a href="advanced_project_link.html">Generative Adversarial Networlds (GANs)</a></li>
-      <h3> Reinforcement Learning </h3>
-      <li><a href="advanced_project_link.html">Basics of RL</a></li>
-      <li><a href="06_ReinforcementLearning/Beyond_Homeworld_Restaurant.html">Case study: Q-tabular Restaurant Game</a></li>
-     
-    </ul>
-    <h2>Section 8: Practical Projects and Case Studies</h2>
-    <!-- Example project link for Practical Projects -->
-    <ul>
-      <li><a href="case_study_link.html">Case Study 1</a></li>
-    </ul>
-    <h2>Resources</h2>
-    <!-- Example resources link -->
-    <ul>
-      <li><a href="resource_link.html">Resource 1</a></li>
-    </ul>
+  <div class="content">
+    <div class="card">
+      <h2>Section 1: Foundations of Artificial Intelligence</h2>
+      <a href="project_link.html">AI Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Section 2: Basic Concepts in Mathematics</h2>
+      <a href="math_project_link.html">Math Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Section 3: Introduction to Algorithms</h2>
+      <a href="algo_project_link.html">Algorithm Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Programming for AI</h2>
+      <a href="programming_project_link.html">Programming Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Section 4: Machine Learning Basics</h2>
+      <a href="ml_project_link.html">ML Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Section 6: Deep Learning Fundamentals</h2>
+      <a href="dl_project_link.html">DL Project 1</a>
+    </div>
+    <div class="card">
+      <h2>Section 7: Advanced Topics</h2>
+      <a href="advanced_project_link.html">Autoencoders</a>
+      <a href="advanced_project_link.html">Generative Adversarial Networks (GANs)</a>
+      <a href="advanced_project_link.html">Basics of RL</a>
+      <a href="06_ReinforcementLearning/Beyond_Homeworld_Restaurant.html">Case study: Q-tabular Restaurant Game</a>
+    </div>
+    <div class="card">
+      <h2>Section 8: Practical Projects and Case Studies</h2>
+      <a href="case_study_link.html">Case Study 1</a>
+    </div>
+    <div class="card">
+      <h2>Resources</h2>
+      <a href="resource_link.html">Resource 1</a>
+    </div>
   </div>
 </body>
 </html>
