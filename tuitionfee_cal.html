@@ -2,56 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Tuition Fee Calculator</title>
-  <script>
-    // Assume global fees object (you would define this based on your actual fee structure)
-    const fees = {
-      baseFee: 1000,
-      credit30Multiplier: 1,
-      credit60Multiplier: 1.5,
-      holdsDegree: 100, // Additional fee if the user holds a degree
-      employed: 50 // Additional fee if the user is employed
-      // ... add other conditions as needed
-    };
-
-    function calculateTuition() {
-      let totalFee = fees.baseFee;
-      // Get the user's input values
-      const credits = document.getElementById('credits').value;
-      const holdsDegree = document.getElementById('degree').checked;
-      const employed = document.getElementById('employed').checked;
-
-      // Calculate the fee based on the user input
-      totalFee *= (credits === '30' ? fees.credit30Multiplier : fees.credit60Multiplier);
-      if (holdsDegree) totalFee += fees.holdsDegree;
-      if (employed) totalFee += fees.employed;
-
-      // Display the result
-      document.getElementById('totalFee').textContent = `Total Tuition Fee: ${totalFee}`;
+  <title>Simulation Histogram Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f7f7f7;
+      text-align: center;
     }
-  </script>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Tuition Fee Calculator</h1>
+<div class="container">
+  <h1>Simulation Histogram Generator</h1>
+  <div class="input-group">
+    <label for="numSimulations">Number of Simulations:</label>
+    <input type="number" id="numSimulations" value="1000" min="1" step="1">
+  </div>
+  <div class="input-group">
+    <label for="mu">Mean (μ):</label>
+    <input type="number" id="mu" value="0" step="any">
+  </div>
+  <div class="input-group">
+    <label for="sigma">Standard Deviation (σ):</label>
+    <input type="number" id="sigma" value="1" step="any">
+  </div>
+  <button onclick="generateHistogram()">Generate Histogram</button>
+  <canvas id="histogramChart"></canvas>
+</div>
 
-<form id="tuitionCalculator">
-  <label>How many credits are you planning to study per year?
-    <select id="credits" onchange="calculateTuition()">
-      <option value="30">30 credits per year</option>
-      <option value="60">60 credits per year</option>
-    </select>
-  </label>
-  <label>
-    <input type="checkbox" id="degree" onchange="calculateTuition()"> Do you already hold a degree?
-  </label>
-  <label>
-    <input type="checkbox" id="employed" onchange="calculateTuition()"> Are you employed?
-  </label>
-  <!-- Add more input fields as needed -->
-</form>
+<script>
+  function generateHistogram() {
+    const numSimulations = parseInt(document.getElementById('numSimulations').value);
+    const mu = parseFloat(document.getElementById('mu').value);
+    const sigma = parseFloat(document.getElementById('sigma').value);
+    
+    // Generate random data for the histogram
+    const data = Array.from({length: numSimulations}, () => mu + sigma * Math.random());
 
-<div id="totalFee">Total Tuition Fee: </div>
+    // Use Chart.js to render the histogram
+    new Chart(document.getElementById('histogramChart'), {
+      type: 'bar',
+      data: {
+        labels: data.map((_, index) => index + 1),
+        datasets: [{
+          label: 'Simulation Data',
+          data: data,
+          backgroundColor: 'rgba(0, 123, 255, 0.5)'
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+</script>
 
 </body>
 </html>
