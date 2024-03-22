@@ -5,6 +5,7 @@
     <script>
         function applyBold() {
             var textArea = document.getElementById("userInput");
+            var displayArea = document.getElementById("formattedText");
             var selectedText;
 
             if (textArea.selectionStart !== undefined) {
@@ -19,26 +20,26 @@
                 
                 textArea.value = beforeText + boldText + afterText;
 
-                // Update the source code display
-                updateSource();
+                // Update the display area to show formatted text
+                displayArea.innerHTML = textArea.value.replace(/\n/g, "<br>");
             }
         }
 
-        function updateSource() {
+        function updateDisplay() {
             var textArea = document.getElementById("userInput");
-            var sourceDisplay = document.getElementById("sourceCode");
+            var displayArea = document.getElementById("formattedText");
 
-            // Display the HTML source code
-            sourceDisplay.textContent = textArea.value;
+            // Update the display area to mimic the text area's content
+            displayArea.innerHTML = textArea.value.replace(/\n/g, "<br>");
         }
     </script>
 </head>
 <body>
     <h2>Input Your Text Here:</h2>
-    <textarea id="userInput" rows="4" cols="50" onInput="updateSource()"></textarea>
+    <textarea id="userInput" rows="4" cols="50" onInput="updateDisplay()"></textarea>
     <br>
     <button onclick="applyBold()">Make Bold</button>
-    <h2>HTML Source Code:</h2>
-    <textarea id="sourceCode" rows="4" cols="50" readonly></textarea>
+    <h2>Formatted Text:</h2>
+    <div id="formattedText" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
 </body>
 </html>
