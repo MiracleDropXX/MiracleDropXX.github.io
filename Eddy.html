@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Formatter</title>
+    <script>
+        function applyBold() {
+            var textArea = document.getElementById("userInput");
+            var selectedText;
+
+            if (textArea.selectionStart !== undefined) {
+                var startPos = textArea.selectionStart;
+                var endPos = textArea.selectionEnd;
+                selectedText = textArea.value.substring(startPos, endPos);
+                
+                // Apply bold to the selected text and update the text area
+                var beforeText = textArea.value.substring(0, startPos);
+                var afterText = textArea.value.substring(endPos);
+                var boldText = "<b>" + selectedText + "</b>";
+                
+                textArea.value = beforeText + boldText + afterText;
+
+                // Update the source code display
+                updateSource();
+            }
+        }
+
+        function updateSource() {
+            var textArea = document.getElementById("userInput");
+            var sourceDisplay = document.getElementById("sourceCode");
+
+            // Display the HTML source code
+            sourceDisplay.textContent = textArea.value;
+        }
+    </script>
+</head>
+<body>
+    <h2>Input Your Text Here:</h2>
+    <textarea id="userInput" rows="4" cols="50" onInput="updateSource()"></textarea>
+    <br>
+    <button onclick="applyBold()">Make Bold</button>
+    <h2>HTML Source Code:</h2>
+    <textarea id="sourceCode" rows="4" cols="50" readonly></textarea>
+</body>
+</html>
