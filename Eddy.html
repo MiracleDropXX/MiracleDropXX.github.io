@@ -1,36 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Text Formatter</title>
+    <title>Interactive Text Editor</title>
+    <style>
+        #displayArea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+    </style>
     <script>
+        var history = []; // To keep track of changes for undo
+
         function applyBold() {
             var textArea = document.getElementById("userInput");
-            var displayArea = document.getElementById("formattedText");
+            var displayArea = document.getElementById("displayArea");
             var selectedText;
 
             if (textArea.selectionStart !== undefined) {
                 var startPos = textArea.selectionStart;
                 var endPos = textArea.selectionEnd;
                 selectedText = textArea.value.substring(startPos, endPos);
-                
-                // Apply bold to the selected text and update the text area
-                var beforeText = textArea.value.substring(0, startPos);
-                var afterText = textArea.value.substring(endPos);
-                var boldText = "<b>" + selectedText + "</b>";
-                
-                textArea.value = beforeText + boldText + afterText;
 
-                // Update the display area to show formatted text
-                displayArea.innerHTML = textArea.value.replace(/\n/g, "<br>");
+                if (selectedText) { // Ensure there's a selection
+                    // Save current state for undo
+                    history.push(displayArea.innerHTML);
+                    
+                    // Apply bold to the selected text
+                    var boldText = "<b>" + selectedText + "</b>";
+                    var newText = textArea.value.substring(0, startPos) + boldText + textArea.value.substring(endPos);
+                    
+                    // Update display area and text area with the new text
+                    displayArea.innerHTML = newText;
+                    textArea.value = newText;
+                }
+            }
+        }
+
+        function undoLastAction() {
+            var displayArea = document.getElementById("displayArea");
+            if (history.length > 0) {
+                // Revert to the last saved state
+                displayArea.innerHTML = history.pop();
             }
         }
 
         function updateDisplay() {
             var textArea = document.getElementById("userInput");
-            var displayArea = document.getElementById("formattedText");
+            var displayArea = document.getElementById("displayArea");
+            displayArea.innerHTML = textArea.value;
 
-            // Update the display area to mimic the text area's content
-            displayArea.innerHTML = textArea.value.replace(/\n/g, "<br>");
+            // Reset history because the text has changed
+            history = [];
         }
     </script>
 </head>
@@ -39,7 +61,8 @@
     <textarea id="userInput" rows="4" cols="50" onInput="updateDisplay()"></textarea>
     <br>
     <button onclick="applyBold()">Make Bold</button>
+    <button onclick="undoLastAction()">Undo</button>
     <h2>Formatted Text:</h2>
-    <div id="formattedText" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    <div id="displayArea"></div>
 </body>
 </html>
