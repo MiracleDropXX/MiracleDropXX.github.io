@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Formatter</title>
+    <style>
+        #formattedText {
+            font-family: 'Calibri', sans-serif;
+            font-size: 24pt;
+            text-align: justify;
+            white-space: pre-wrap;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            height: 554px;
+            width: 1676px;
+            overflow: auto; /* Ensures content is scrollable if it overflows */
+        }
+    </style>
+    <script>
+        function applyStyle(styleType) {
+            var textArea = document.getElementById("userInput");
+            var displayArea = document.getElementById("formattedText");
+            var selectedText;
+
+            if (textArea.selectionStart !== undefined) {
+                var startPos = textArea.selectionStart;
+                var endPos = textArea.selectionEnd;
+                selectedText = textArea.value.substring(startPos, endPos);
+
+                if (selectedText) {
+                    // Determine the style tag based on the button clicked
+                    var styleTag;
+                    switch (styleType) {
+                        case 'bold':
+                            styleTag = 'b';
+                            break;
+                        case 'italic':
+                            styleTag = 'i';
+                            break;
+                        case 'underline':
+                            styleTag = 'u';
+                            break;
+                    }
+
+                    // Apply the selected style to the text
+                    var beforeText = textArea.value.substring(0, startPos);
+                    var afterText = textArea.value.substring(endPos);
+                    var styledText = `<${styleTag}>${selectedText}</${styleTag}>`;
+
+                    textArea.value = beforeText + styledText + afterText;
+
+                    // Update the display area to show formatted text
+                    updateDisplay();
+                }
+            }
+        }
+
+        function updateDisplay() {
+            var textArea = document.getElementById("userInput");
+            var displayArea = document.getElementById("formattedText");
+
+            // Convert newlines to <br> and mimic the text area's content
+            displayArea.innerHTML = textArea.value.replace(/\n/g, "<br>");
+        }
+    </script>
+</head>
+<body>
+    <h2>Input Your Text Here:</h2>
+    <textarea id="userInput" rows="4" cols="50" onInput="updateDisplay()" style="width:1676px; height:554px;"></textarea>
+    <br>
+    <button onclick="applyStyle('bold')">Bold</button>
+    <button onclick="applyStyle('italic')">Italic</button>
+    <button onclick="applyStyle('underline')">Underline</button>
+    <h2>Formatted Text:</h2>
+    <div id="formattedText"></div>
+</body>
+</html>
